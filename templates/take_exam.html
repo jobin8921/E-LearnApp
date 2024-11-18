@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ exam.title }} - Take Exam</title>
+</head>
+<body>
+    {% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
+<p>Questions: {{ questions|length }}</p>
+    <h1>{{ exam.title }}</h1>
+    {% if questions %}
+    <form method="post" action="{% url 'submit_exam' exam.id %}">
+        {% csrf_token %}
+        {% for question in questions %}
+            <div>
+                <p>{{ question.question_text }}</p>
+                <input type="radio" name="question_{{ question.id }}" value="{{ question.option_1 }}"> {{ question.option_1 }}<br>
+                <input type="radio" name="question_{{ question.id }}" value="{{ question.option_2 }}"> {{ question.option_2 }}<br>
+                <input type="radio" name="question_{{ question.id }}" value="{{ question.option_3 }}"> {{ question.option_3 }}<br>
+                <input type="radio" name="question_{{ question.id }}" value="{{ question.option_4 }}"> {{ question.option_4 }}<br>
+            </div>
+        {% endfor %}
+        <button type="submit">Submit Exam</button>
+    </form>
+{% else %}
+    <p>No questions available for this exam.</p>
+{% endif %}
+
+</body>
+</html>

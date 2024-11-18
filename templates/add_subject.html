@@ -1,0 +1,56 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Subject</title>
+    <link rel="stylesheet" href="{% static 'css/addsubject.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Add Subject to Course</h1>
+        <nav>
+            <a href="{% url 'admin_dashboard' %}">Back to Dashboard</a>
+            <a href="{% url 'admin_logout' %}">Logout</a>
+        </nav>
+    </header>
+
+    <main>
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <p class="message">{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <section>
+            <form method="post" action="{% url 'add_subject' %}">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="course">Select Course:</label>
+                    <select name="course" id="course" required>
+                        {% for course in courses %}
+                            <option value="{{ course.id }}">{{ course.title }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="name">Subject Name:</label>
+                    <input type="text" name="name" id="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="code">Subject Code:</label>
+                    <input type="text" name="code" id="code" required>
+                </div>
+
+                <button type="submit">Add Subject</button>
+            </form>
+        </section>
+    </main>
+</body>
+</html>

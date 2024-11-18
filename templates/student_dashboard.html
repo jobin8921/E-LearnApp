@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <link rel="stylesheet" href="{% static 'styles/style.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Student Dashboard</h1>
+    </header>
+
+    <section>
+        <h2>Welcome, {{ request.user.username }}!</h2>
+        <p>This is your dashboard where you can view your courses, grades, and more.</p>
+
+        {% if student_profile.assigned_course %}
+            <p><strong>Registered Course:</strong> {{ student_profile.assigned_course.title }}</p>
+            <p><strong>Description:</strong> {{ student_profile.assigned_course.description }}</p>
+        {% else %}
+            <p>You have not registered for any courses yet.</p>
+        {% endif %}
+    </section>
+
+    <h2>Available Exams</h2>
+    <ul>
+        {% for exam in exams %}
+            <li>
+                <a href="{% url 'take_exam' exam.id %}">{{ exam.title }}</a>
+            </li>
+        {% empty %}
+            <li>No exams available for your courses at the moment.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

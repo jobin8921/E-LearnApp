@@ -1,0 +1,10 @@
+<!-- start_exam.html -->
+<h2>Are you sure you want to start the exam: {{ exam.title }}?</h2>
+<p>Once started, the exam will be available for students.</p>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Yes, Start Exam</button>
+</form>
+
+<a href="{% url 'staff_dashboard' %}">Cancel</a>

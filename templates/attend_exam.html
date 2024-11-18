@@ -1,0 +1,33 @@
+<h1>Exam: {{ exam.title }}</h1>
+  
+<form method="POST">
+  {% csrf_token %}
+  <div class="exam-container">
+    {% for question in questions %}
+      <div class="question-container">
+        <h3>{{ question.question_text }}</h3>
+        
+        <div class="options">
+          <label>
+            <input type="radio" name="question_{{ question.id }}" value="{{ question.option_1 }}">
+            {{ question.option_1 }}
+          </label>
+          <label>
+            <input type="radio" name="question_{{ question.id }}" value="{{ question.option_2 }}">
+            {{ question.option_2 }}
+          </label>
+          <label>
+            <input type="radio" name="question_{{ question.id }}" value="{{ question.option_3 }}">
+            {{ question.option_3 }}
+          </label>
+          <label>
+            <input type="radio" name="question_{{ question.id }}" value="{{ question.option_4 }}">
+            {{ question.option_4 }}
+          </label>
+        </div>
+      </div>
+    {% endfor %}
+    
+    <button type="submit">Submit Exam</button>
+  </div>
+</form>

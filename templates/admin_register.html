@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Register</title>
+    <link rel="stylesheet" href="{% static 'styles/style.css' %}">
+</head>
+<body>
+    <h2>Admin Registration</h2>
+    {% csrf_token %}
+
+    <!-- Message Display -->
+    {% if messages %}
+        <div>
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- Registration Form -->
+    <form method="POST">
+        {% csrf_token %}
+        <label for="username">Username:</label>
+        <input type="text" name="username" required>
+        
+        <label for="email">Email:</label>
+        <input type="email" name="email" required>
+        
+        <label for="password">Password:</label>
+        <input type="password" name="password" required>
+        
+        <button type="submit">Register</button>
+    </form>
+
+    <p>Already have an account? <a href="{% url 'admin_login' %}">Login here</a></p>
+</body>
+</html>

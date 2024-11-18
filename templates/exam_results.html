@@ -1,0 +1,64 @@
+<!-- home/templates/home/exam_results.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Exam Results</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>Exam Results for {{ exam.title }}</h1>
+    
+    <p><strong>Total Questions:</strong> {{ total_questions }}</p>
+    <p><strong>Correct Answers:</strong> {{ correct_answers }}</p>
+    <p><strong>Score Percentage:</strong> {{ score_percentage }}%</p>
+    
+    <h2>Answer Review</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Question</th>
+                <th>Your Answer</th>
+                <th>Correct Answer</th>
+                <th>Result</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for review in answer_review %}
+            <tr>
+                <td>{{ review.question_text }}</td>
+                <td>
+                    {% if review.selected_answer %}
+                        {{ review.selected_answer }}
+                    {% else %}
+                        <em>No answer provided</em>
+                    {% endif %}
+                </td>
+                <td>{{ review.correct_answer }}</td>
+                <td>
+                    {% if review.is_correct %}
+                        <span style="color: green;">Correct</span>
+                    {% else %}
+                        <span style="color: red;">Incorrect</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <a href="{% url 'student_dashboard' %}">Back to Home</a>
+</body>
+</html>

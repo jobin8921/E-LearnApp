@@ -1,0 +1,138 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 10;
+            padding: 0;
+        }
+        
+        header {
+            text-align: center;
+            background-color: #FF6600;
+            color: white;
+            padding: 10px 0;
+        }
+
+        main {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        label {
+            margin-top: 10px;
+            display: block;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="email"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 15px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #FF6600;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #FF6600;
+        }
+
+        p {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        a {
+            color: #ff6600;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    {% include 'index_header.html' %}
+    <header>
+        <h1>Student Registration</h1>
+    </header>
+
+    <main>
+        <form method="POST">
+            {% csrf_token %}
+            <div>
+                <label for="username">Username:</label>
+                <input type="text" name="username" required>
+            </div>
+            <div>
+                <label for="email">Email:</label>
+                <input type="email" name="email" required>
+            </div>
+            <div>
+                <label for="password">Password:</label>
+                <input type="password" name="password" required>
+            </div>
+            <div>
+                <label for="address">Address:</label>
+                <input type="text" name="address" required>
+            </div>
+            <div>
+                <label for="phone">Phone:</label>
+                <input type="text" name="phone" required>
+            </div>
+            <div>
+                <label for="course">Select Course:</label>
+                <select name="course" required>
+                    {% for course in courses %}
+                        <option value="{{ course.id }}">{{ course.title }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label for="card_number">Card Number:</label>
+                <input type="text" name="card_number" required placeholder="1234 5678 9012 3456">
+            </div>
+            <div>
+                <label for="expiration_date">Expiration Date:</label>
+                <input type="month" name="expiration_date" required>
+            </div>
+            <div>
+                <label for="cvv">CVV:</label>
+                <input type="text" name="cvv" required placeholder="123" maxlength="3">
+            </div>
+            <button type="submit">Register</button>
+        </form>
+    </main>
+
+</body>
+</html>

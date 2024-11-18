@@ -1,0 +1,19 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Choose a Course</title>
+    <link rel="stylesheet" href="{% static 'styles/styles.css' %}">
+</head>
+<body>
+    <h2>Select a Course</h2>
+    {% for course in courses %}
+        <div style="border: 1px solid #000; padding: 10px; margin: 10px;">
+            <h3>{{ course.name }}</h3>
+            <p>{{ course.description }}</p>
+            <a href="{% url 'course_detail' course.id %}">View Course</a>
+        </div>
+    {% endfor %}
+</body>
+</html>

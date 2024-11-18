@@ -1,0 +1,63 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Dashboard</title>
+    <link rel="stylesheet" href="{% static 'styles/style.css' %}">
+</head>
+<body>
+    {% include 'index_header.html' %}
+    <div class="container">
+        <h2>Welcome to the Staff Dashboard</h2>
+
+        <p class="welcome-message">Welcome, {{ user.username }}</p>
+
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <p class="message">{{ message }}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if staff_profile.assigned_course %}
+        <div class="assigned-course">
+            <h3>Assigned Course: {{ staff_profile.assigned_course.title }}</h3>
+        </div>
+        {% else %}
+        <p class="no-assignment">No course assigned yet.</p>
+        {% endif %}
+
+        {% if staff_profile.assigned_subject %}
+        <div class="assigned-subject">
+            <h3>Assigned Subject: {{ staff_profile.assigned_subject.name }}</h3>
+        </div>
+        {% else %}
+        <p class="no-assignment">You have not registered for any courses yet.</p>
+        {% endif %}
+
+        <a href="{% url 'create_exam' %}">Create Exam</a>
+
+        <h3>Your Exams</h3>
+        {% for exam in exams %}
+        <div>
+            <h3>{{ exam.title }}</h3>
+            
+            <!-- Check if the exam has already started -->
+            {% if not exam.is_started %}
+                <form action="{% url 'start_exam' exam.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">Start Exam</button>
+                </form>
+            {% else %}
+                <p>Exam has already started.</p>
+            {% endif %}
+        </div>
+    {% endfor %}
+    
+    </div>
+</body>
+</html>

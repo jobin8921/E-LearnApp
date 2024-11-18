@@ -1,0 +1,106 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/admindash.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Admin Dashboard</h1>
+        <nav>
+            <a href="{% url 'add_course' %}">Add New Course</a>
+            <a href="{% url 'add_subject' %}">Add New Subject</a> 
+            <a href="{% url 'admin_logout' %}">Logout</a>
+        </nav>
+    </header>
+
+    <main>
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <p class="message">{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <section>
+            <h2>Pending Staff Approvals</h2>
+            {% if pending_staff %}
+                <ul>
+                    {% for staff in pending_staff %}
+                        <li>
+                            <p>Staff Name: {{ staff.user.username }}</p>
+                            <form method="post" action="{% url 'approve_staff' staff.id %}">
+                                {% csrf_token %}
+                                <label for="course">Assign Course:</label>
+                                <select name="course" id="course" required>
+                                    {% for course in courses %}
+                                        <option value="{{ course.id }}">{{ course.title }}</option>
+                                    {% endfor %}
+                                </select>
+                                <label for="subject">Assign Subject:</label>
+                                <select name="subject" id="subject" required>
+                                    {% for subject in subjects %}
+                                        <option value="{{ subject.id }}">{{ subject.name }}</option>
+                                    {% endfor %}
+                                </select>
+                                <button type="submit">Approve</button>
+                            </form>
+                            <form method="post" action="{% url 'reject_staff' staff.id %}">
+                                {% csrf_token %}
+                                <button type="submit">Reject</button>
+                            </form>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No staff pending approval.</p>
+            {% endif %}
+        </section>
+
+        <section>
+            <h2>Pending Student Approvals</h2>
+            {% if pending_students %}
+                <ul>
+                    {% for student in pending_students %}
+                        <li>
+                            <p>Student Name: {{ student.user.username }}</p>
+                            <p>Email: {{ student.user.email }}</p>
+                            <p>Address: {{ student.address }}</p>
+                            <p>Phone: {{ student.phone }}</p>
+                            <p>
+            
+                               Selected Course: 
+                                {% if student.assigned_course %}
+                                    {{ student.assigned_course.title }}
+                                {% else %}
+                                    No course assigned
+                                {% endif %}
+                            </p>
+                            <p>
+                                Payment Status: {{ student.payment_status }}
+                            </p>
+                            <form method="post" action="{% url 'approve_student' student.id %}">
+                                {% csrf_token %}
+                                <button type="submit">Approve</button>
+                            </form>
+                            <form method="post" action="{% url 'reject_student' student.id %}">
+                                {% csrf_token %}
+                                <button type="submit">Reject</button>
+                            </form>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No students pending approval.</p>
+            {% endif %}
+        </section>
+       
+    </main>
+</body>
+</html>
+

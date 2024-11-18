@@ -1,0 +1,22 @@
+<!-- templates/staff_register.html -->
+{% load static %}
+{% include 'index_header.html' %}
+
+<div class="container">
+    <h2>Register as Staff</h2>
+    <form method="POST" action="{% url 'staff_register' %}">
+        {% csrf_token %}
+        <label>Username:</label>
+        <input type="text" name="username" required>
+        
+        <label>Email:</label>
+        <input type="email" name="email" required>
+
+        <label>Password:</label>
+        <input type="password" name="password" required>
+        
+        <button type="submit">Register</button>
+    </form>
+    <p>Already have an account? <a href="{% url 'staff_login' %}">Login here</a></p>
+    <p>{% for message in messages %}{{ message }}{% endfor %}</p>
+</div>
